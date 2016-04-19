@@ -1,13 +1,11 @@
-//This the server side code using UDP Protocol - very simple one
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include <string.h>
 
 #define MAXLINE 1000
-#define port 9999
+
 int main()
 {
 
@@ -24,14 +22,15 @@ int main()
 
 	int n;
 	socklen_t len;
-	char mssg[MAXLINE];
+	char mssg[1000];
 
 	for(;;)
 	{	
-		scanf("%s", mssg);
+		
 		socklen_t len= sizeof(clientaddr);
 		n=recvfrom(sockfd,mssg , MAXLINE,0,(struct sockaddr *)&clientaddr, &len);
-		printf("%s", mssg);
+		printf("%s\n", mssg);
+		sendto(sockfd, mssg,strlen(mssg),0,(struct sockaddr*)&clientaddr, len);
 	}
 
 
